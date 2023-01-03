@@ -9,6 +9,13 @@ FROM_ADDRESS = 'sender@example.com'.freeze
 CONTACT_HUBBER = '@spinecone'.freeze
 SUGGESTED_AMOUNT = 40.freeze
 class GiftHubber
+
+  def self.pair_senders_and_recipients(participants)
+    senders = participants.shuffle
+    recipients = senders.rotate
+    senders.zip(recipients)
+  end
+
   def self.distribute_gifts(repo, issue_number)
     issue_url = "https://api.github.com/repos/#{repo}/issues/#{issue_number}/comments?per_page=1000"
     comments_response = HTTParty.get(
@@ -20,14 +27,13 @@ class GiftHubber
     )
     parsed_json = JSON.parse(comments_response.body)
 
-    parsed_json.each { |comment| recipients[comment['user']['login']] = comment['body'] }
-    senders = recipients.keys.shuffle
-    recipients = senders.rotate
+    participate_data = []
+    parsed_json.each { |comment| participate_data[comment['user']['login']] = comment['body'] }
+    participants = participate_data.keys.shuffle
 
+    pair_senders_and_recipients(participants).each do |sender, recipient|
 
-    senders.zip(recipents).each do |sender, recipient|
-
-      recipient_request = recipients[recipient]
+      recipient_request = participate_data[recipient]
       message = <<-MESSAGE
       Your secret gift recipient is #{recipient}! Their wishlist is: #{recipient_request}. Please send them something that costs about $#{SUGGESTED_AMOUNT}. You can find their shipping address on Team <3
 
