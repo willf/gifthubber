@@ -64,10 +64,14 @@ class TestGiftHubber < Test::Unit::TestCase
 
   def test_spair_senders_and_recipients
     100.times do # bein thorough !!!
-      participants = range(1..150).map { |x| "user_#{x}" }
+      number_of_participants = rand(100..150)
+      pairs = 0
+      participants = range(1..number_of_participants).to_a.map { |x| "user_#{x}" }
       GiftHubber.pair_senders_and_recipients(participants) do |sender, recipient|
+        pairs += 1
         assert sender != recipient
       end
+      assert_equal number_of_participants, pairs
     end
   end
 

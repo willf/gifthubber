@@ -1,14 +1,15 @@
 require 'httparty'
 require 'mailgun-ruby'
 
-EMAIL_DOMAIN = 'example.com'.freeze
-MAILGUN_API_KEY = 'abc123'.freeze
-GITHUB_ACCESS_TOKEN = 'xyz999'.freeze
-MAILGUN_DOMAIN = 'mail.example.com'.freeze
-FROM_ADDRESS = 'sender@example.com'.freeze
-CONTACT_HUBBER = '@spinecone'.freeze
-SUGGESTED_AMOUNT = 40.freeze
 class GiftHubber
+  EMAIL_DOMAIN = 'example.com'.freeze
+  MAILGUN_API_KEY = 'abc123'.freeze
+  GITHUB_ACCESS_TOKEN = 'xyz999'.freeze
+  MAILGUN_DOMAIN = 'mail.example.com'.freeze
+  FROM_ADDRESS = 'sender@example.com'.freeze
+  CONTACT_HUBBER = '@spinecone'.freeze
+  SUGGESTED_AMOUNT = 40.freeze
+
 
   def self.pair_senders_and_recipients(participants)
     senders = participants.shuffle
@@ -27,13 +28,13 @@ class GiftHubber
     )
     parsed_json = JSON.parse(comments_response.body)
 
-    participate_data = []
-    parsed_json.each { |comment| participate_data[comment['user']['login']] = comment['body'] }
-    participants = participate_data.keys.shuffle
+    participant_data = []
+    parsed_json.each { |comment| participant_data[comment['user']['login']] = comment['body'] }
+    participants = participant_data.keys.shuffle
 
     pair_senders_and_recipients(participants).each do |sender, recipient|
 
-      recipient_request = participate_data[recipient]
+      recipient_request = participant_data[recipient]
       message = <<-MESSAGE
       Your secret gift recipient is #{recipient}! Please send them something that costs about $#{SUGGESTED_AMOUNT}.
       Here is what they wrote:
