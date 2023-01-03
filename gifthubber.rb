@@ -35,7 +35,10 @@ class GiftHubber
 
       recipient_request = participate_data[recipient]
       message = <<-MESSAGE
-      Your secret gift recipient is #{recipient}! Their wishlist is: #{recipient_request}. Please send them something that costs about $#{SUGGESTED_AMOUNT}. You can find their shipping address on Team <3
+      Your secret gift recipient is #{recipient}! Please send them something that costs about $#{SUGGESTED_AMOUNT}.
+      Here is what they wrote:
+
+      #{recipient_request}
 
       - from #{CONTACT_HUBBER}, secret gift facilitator
       MESSAGE

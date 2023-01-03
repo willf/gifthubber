@@ -28,11 +28,13 @@ class TestGiftHubber < Test::Unit::TestCase
 
     assert_equal GiftHubber::FROM_ADDRESS, deliveries[0][:from]
     assert_equal "user1@#{GiftHubber::EMAIL_DOMAIN}", deliveries[0][:to]
-    assert deliveries[0][:text].include?('Your secret gift recipient is user2! Their wishlist is: I want pants.')
+    assert deliveries[0][:text].include?('Your secret gift recipient is user2!')
+    assert deliveries[0][:text].include?('I want cats')
 
     assert_equal GiftHubber::FROM_ADDRESS, deliveries[1][:from]
     assert_equal "user2@#{GiftHubber::EMAIL_DOMAIN}", deliveries[1][:to]
-    assert deliveries[1][:text].include?('Your secret gift recipient is user1! Their wishlist is: I want cats.')
+    assert deliveries[1][:text].include?('Your secret gift recipient is user1!')
+    assert deliveries[1][:text].include?('I want pants')
     Mailgun::Client.deliveries.clear
   end
 
