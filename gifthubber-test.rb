@@ -60,4 +60,13 @@ class TestGiftHubber < Test::Unit::TestCase
     end
   end
 
+  def test_spair_senders_and_recipients
+    100.times do # bein thorough !!!
+      participants = range(1..150).map { |x| "user_#{x}" }
+      GiftHubber.pair_senders_and_recipients(participants) do |sender, recipient|
+        assert sender != recipient
+      end
+    end
+  end
+
 end
