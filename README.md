@@ -1,7 +1,7 @@
 ## For facilitating randomized gift exchange between hubbers (or whatever group of folks) using issue comments :gift:
 
 ### Setup:
-- Make sure `EMAIL_DOMAIN`, `MAILGUN_API_KEY`, `GITHUB_ACCESS_TOKEN`, `MAILGUN_DOMAIN`, and `FROM_ADDRESS` in `gifthubber.rb` get changed to something relevant
+- Make sure `EMAIL_DOMAIN`, `MAILGUN_API_KEY`, `GITHUB_ACCESS_TOKEN`, `MAILGUN_DOMAIN`,  `FROM_ADDRESS`, `CONTACT_HUBBER`, and `SUGGESTED_AMOUNT` in `gifthubber.rb` get changed to something relevant
 - Figure out how you want to associate github usernames with email addresses; ideally this would be an API call to find the user and using the public email associated with them, but githubbers don't tend to set that field so I'm doing a hackier thing. :sob:
 
 ### To use:

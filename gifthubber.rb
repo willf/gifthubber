@@ -6,7 +6,8 @@ MAILGUN_API_KEY = 'abc123'.freeze
 GITHUB_ACCESS_TOKEN = 'xyz999'.freeze
 MAILGUN_DOMAIN = 'mail.example.com'.freeze
 FROM_ADDRESS = 'sender@example.com'.freeze
-
+CONTACT_HUBBER = '@spinecone'.freeze
+SUGGESTED_AMOUNT = 40.freeze
 class GiftHubber
   def self.distribute_gifts(repo, issue_number)
     issue_url = "https://api.github.com/repos/#{repo}/issues/#{issue_number}/comments?per_page=1000"
@@ -18,25 +19,22 @@ class GiftHubber
       }
     )
     parsed_json = JSON.parse(comments_response.body)
-    recipients = {}
 
     parsed_json.each { |comment| recipients[comment['user']['login']] = comment['body'] }
-    senders = recipients.keys
-    unless senders.count.even?
-      raise HolidayError, "THERE ARE AN ODD NUMBER OF PARTICIPANTS, THIS IS TERRIBLE!!!!"
-    end
+    senders = recipients.keys.shuffle
+    recipients = senders.rotate
 
-    senders.each do |sender|
-      recipient_name = (recipients.keys - [sender]).sample
-      recipient_request = recipients[recipient_name]
+
+    senders.zip(recipents).each do |sender, recipient|
+
+      recipient_request = recipients[recipient]
       message = <<-MESSAGE
-      Your secret gift recipient is #{recipient_name}! Their wishlist is: #{recipient_request}. Please send them something that costs about $20. You can find their shipping address on Team <3
+      Your secret gift recipient is #{recipient}! Their wishlist is: #{recipient_request}. Please send them something that costs about $#{SUGGESTED_AMOUNT}. You can find their shipping address on Team <3
 
-      - from spinecone, secret gift facilitator
+      - from #{CONTACT_HUBBER}, secret gift facilitator
       MESSAGE
       p "#{sender} was asked to send a gift to #{recipient_name}"
       send_email(sender, message)
-      recipients.delete(recipient_name)
     end
   end
 
