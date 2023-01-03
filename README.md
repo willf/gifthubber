@@ -9,3 +9,7 @@
 - Create an issue where participants can post a comment with their wishlist
 - When there are enough people run `GiftHubber.distribute_gifts(repo, issue_number)` where the `repo` and `issue_number` correspond to the issue where everyone posted their wishlist. There doesn't need to be an even number of recipients.
 - Emails pairing gift senders/recipients get sent!
+
+### Thanks to
+
+- [Dr Hannah Fry](https://www.youtube.com/watch?v=5kC5k5QBqcc) for the simple solution to the gift exchange problem
